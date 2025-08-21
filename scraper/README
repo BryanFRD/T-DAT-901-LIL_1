@@ -1,0 +1,23 @@
+# Scraper
+
+Ce projet est un scraper développé en Rust. Il permet de collecter automatiquement des données depuis plusieurs sites web pour faciliter l'analyse et l'agrégation d'informations.
+
+## Fonctionnalités
+
+- Récupération automatisée de données depuis plusieurs sources.
+- Traitement et sauvegarde des données extraites.
+- Extensible pour ajouter de nouveaux sites facilement.
+
+## Sites pris en charge
+
+- [CoinTelegraph](https://cointelegraph.com/)
+- [DeskCoin](https://deskcoin.com/)
+
+## Prérequis
+
+- [Rust](https://www.rust-lang.org/tools/install) installé sur votre machine.
+- [Librdkafka](https://github.com/confluentinc/librdkafka) pour la gestion de Kafka.
+
+## Installation
+
+Clonez le dépôt et placez-vous dans le dossier du projet :

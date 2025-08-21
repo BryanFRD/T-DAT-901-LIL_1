@@ -1,0 +1,65 @@
+name: cryptoviz-LIL_1
+
+services:
+  database:
+    image: mongo:7.0
+    container_name: database
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: database
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: password
+    ports:
+      - '8081:8081'
+    depends_on:
+      - database
+  kafka:
+    image: apache/kafka:3.9.1
+    container_name: kafka
+    environment:
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_NUM_PARTITIONS: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_CLUSTER_ID: my-cluster-id
+    ports:
+      - '9092:9092'
+  scraper:
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    container_name: scraper
+    depends_on:
+      - kafka
+  backend:
+    build:
+      context: ./cryptoviz-backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - '8080:8080'
+    depends_on:
+      - kafka
+      - database
+  web:
+    build:
+      context: ./web-ui
+      dockerfile: Dockerfile
+    container_name: web
+    ports:
+      - '80:80'
+
+volumes:
+  mongo_data:

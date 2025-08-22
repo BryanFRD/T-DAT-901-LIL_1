@@ -1,0 +1,10 @@
+{
+  "databaseChangeLog": [
+    {
+      "include": {
+        "file": "crypto-viz-init.json",
+        "relativeToChangelogFile": true
+      }
+    }
+  ]
+}

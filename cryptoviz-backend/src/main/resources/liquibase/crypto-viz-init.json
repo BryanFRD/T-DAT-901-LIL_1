@@ -1,0 +1,11 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "create-crypto-collection-v1",
+        "author": "azoulux",
+        "changes": []
+      }
+    }
+  ]
+}

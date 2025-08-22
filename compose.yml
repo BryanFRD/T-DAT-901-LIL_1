@@ -4,11 +4,23 @@ services:
   database:
     image: mongo:7.0
     container_name: database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: cryptoviz
     ports:
       - '27017:27017'
     volumes:
       - mongo_data:/data/db
     restart: always
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/${MONGO_DATABASE} --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    
+
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express

@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:pass@localhost:27017/cryptoviz?authSource=admin
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/liquibase/changelog-master.json
+
+logging:
+  level:
+    root: DEBUG
+    com.epitech.cryptoviz_backend: DEBUG
